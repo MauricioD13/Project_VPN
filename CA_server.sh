@@ -23,6 +23,14 @@ else
 	chmod 700 $var_home/easy-rsa
 fi
 
+pwd_command=$(pwd)
+
+if [ -d $pwd_command ]; then
+	echo "Directory $pwd_command already exists"
+else
+	mkdir requests
+	mkdir certificates
+
 cd $var_home/easy-rsa
 
 ./easyrsa init-pki

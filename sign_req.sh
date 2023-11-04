@@ -5,16 +5,17 @@
 
 
 var_home=$1
+type_sign=$2
 
 cd $var_home/easy-rsa
 
-./easyrsa import-req server.req server
+if [ $type_sign == "server"]; then
+    ./easyrsa import-req server.req $type_sign
+else
+    echo "client"
 
 ./easyrsa sign-req server server
 
 
-echo "----PUBLIC KEY SERVER CRT----------"
-cat pki/issued/server.crt
-
-echo "--------CA CRT-------------"
-cat pki/ca.crt
+#pki/issued/server.crt
+#pki/ca.crt

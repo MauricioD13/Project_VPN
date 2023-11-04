@@ -27,19 +27,14 @@ set_var EASYRSA_DIGEST "sha512"' > vars
 
 ./easyrsa init-pki
 
-#  Certificate signature request  VPN server
+# Certificate signature request  VPN server
 ./easyrsa gen-req server nopass
+cp $var_home/easy-rsa/pki/private/server.key /etc/openvpn/server/
+
+# OpenVPN cipher
+openvpn --genkey --secret ta.key
+
+cp ta.key /etc/openvpn/server
 
 
-echo "-------------COPY THIS REQUEST TO CA SERVER------------"
-cat $var_home/easy-rsa/pki/reqs/server.req
 
-echo "------------INTRODUCE COPY SERVER.CRT FILE-----------"
-read server_crt
-
-echo $server_crt > /etc/openvpn/server/server.crt
-
-echo "-------------INTRODUCE COPY CA:CRT FILE--------------"
-read ca_crt
-
-echo $ca_crt > /etc/openvpn/server/ca.crt
