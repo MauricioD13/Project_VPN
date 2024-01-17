@@ -6,28 +6,23 @@ import time
 ec2 = boto3.client('ec2')
 
 # Create key pair
-key_pair = ec2.create_key_pair(KeyName='myKey')
+key_pair = ec2.create_key_pair(KeyName='VPN_KEY')
 private_key = key_pair['KeyMaterial']
 
 # Save private key to file
-with open('my_key.pem', 'w') as key_file:
+with open('vpn_key.pem', 'w') as key_file:
     key_file.write(private_key) 
 
 # Set user data script
-user_data = """
-#!/bin/bash
-yum update -y
-yum install -y httpd
-service httpd start
-chkconfig httpd on
-echo "<h1>Hello World</h1>" > /var/www/html/index.html
-"""
+with open("/bash_scripts/server_VPN.sh") as file:
+    user_data = file.read()
+    
 
 # Launch EC2 instance
 instances = ec2.run_instances(
-    ImageId='ami-0aab3940ccac14a65', # Amazon Linux 2 AMI
+    ImageId='ami-0748d13ffbc370c2b', # Ubuntu Linux 22.04
     InstanceType='t2.micro',
-    KeyName='myKey',
+    KeyName='VPN_KEY',
     UserData=user_data,
     MaxCount=1,
     MinCount=1
