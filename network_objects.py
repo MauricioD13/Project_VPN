@@ -1,5 +1,28 @@
 import boto3
 
+def security_group_create(ec2):
+    # Create security group allowing SSH access
+    response = ec2.create_security_group(
+        GroupName="ssh-access", Description="Security group with SSH access"
+    )
+
+    security_group_id = response["GroupId"]
+    print("Security group ID: ", security_group_id)
+    # Authorize SSH access
+    ec2.authorize_security_group_ingress(
+        GroupId=security_group_id,
+        IpPermissions=[
+            {
+                "IpProtocol": "tcp",
+                "FromPort": 22,
+                "ToPort": 22,
+                "IpRanges": [{"CidrIp": "0.0.0.0/0"}],
+            }
+        ],
+    )
+
+    return security_group_id
+
 def create_vpc():
     ec2 = boto3.client("ec2")
 
