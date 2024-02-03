@@ -1,0 +1,31 @@
+# Start with a base CentOS image
+FROM ubuntu:rolling
+
+LABEL name="ca-server-base"
+
+# Set environment variables
+ENV VAR_HOME=/home/ubuntu
+RUN apt update && apt -y upgrade
+RUN apt install -y easy-rsa openssl
+RUN mkdir ${VAR_HOME}/easy-rsa
+RUN ln -s /usr/share/easy-rsa/* ${VAR_HOME}/easy-rsa
+RUN chown ubuntu ${VAR_HOME}/easy-rsa
+RUN chmod 700 ${VAR_HOME}/easy-rsa
+RUN mkdir requests
+RUN mkdir certificates
+WORKDIR ${VAR_HOME}/easy-rsa
+RUN export EASYRSA_BATCH=1
+RUN ./easyrsa init-pki
+
+ADD vars vars
+RUN ./easyrsa build-ca nopass
+
+# SSH
+RUN systemctl start sshd
+RUN service sshd start
+
+# Expose ports 
+EXPOSE 8080 8443
+
+# Start PKI when container launches
+# CMD ["/usr/sbin/pki-tomcatd", "-s", "start"]
