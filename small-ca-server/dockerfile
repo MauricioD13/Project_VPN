@@ -1,0 +1,9 @@
+FROM smallstep/step-ca:latest
+
+WORKDIR /opt/step-ca
+COPY init-ca.sh .
+RUN chmod 700 init-ca.sh
+
+EXPOSE 8080
+
+CMD ["/opt/step-ca/init-ca.sh"]
