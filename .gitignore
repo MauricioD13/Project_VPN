@@ -165,3 +165,5 @@ keys/
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+small-ca-server/root_ca.crt
+small-ca-server/password.txt
