@@ -10,14 +10,16 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-2"
+  region = "us-east-2"
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-0c20d88b0021158c6"
-  instance_type = "t2.micro"
-  subnet_id = aws_subnet.vpn_subnet.id
+  ami                         = "ami-05bdb477706e2a189"
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.vpn_subnet.id
   associate_public_ip_address = true
+  security_groups             = aws_security_group.ssh.id
+  key_name                    = "server_docker"
   tags = {
     Name = "server-docker"
   }
@@ -33,7 +35,7 @@ resource "aws_vpc" "vpn_vpc" {
 
 resource "aws_subnet" "vpn_subnet" {
 
-  vpc_id = aws_vpc.vpn_vpc.id
+  vpc_id     = aws_vpc.vpn_vpc.id
   cidr_block = "10.0.1.0/24"
   tags = {
     Name = "tf_vpn_subnet"
@@ -50,7 +52,7 @@ resource "aws_security_group" "ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
