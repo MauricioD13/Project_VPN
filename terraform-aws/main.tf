@@ -20,6 +20,9 @@ resource "aws_instance" "app_server" {
   associate_public_ip_address = true
   security_groups             = aws_security_group.ssh.id
   key_name                    = "server_docker"
+  user_data = {
+    
+  }
   tags = {
     Name = "server-docker"
   }
