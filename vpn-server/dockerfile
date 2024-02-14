@@ -1,0 +1,13 @@
+FROM alpine:latest
+RUN apk update
+RUN apk upgrade
+RUN apk add openvpn step-cli
+RUN mkdir step-dir
+RUN ln -s /usr/share/step-dir /step-dir
+RUN chmod 700 /step-dir
+WORKDIR /step-dir 
+RUN openvpn --genkey --secret ta.key
+RUN cp.ta.key /etc/openvpn/server
+
+
+
