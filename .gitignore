@@ -165,5 +165,7 @@ keys/
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
-small-ca-server/root_ca.crt
-small-ca-server/password.txt
+containers/small-ca-server/root_ca.crt
+containers/small-ca-server/password.txt
+containers/vpn-server/server.conf
+.$Design_VPN.drawio.bkp
