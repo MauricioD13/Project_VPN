@@ -1,0 +1,24 @@
+FROM alpine:latest
+RUN apk update
+RUN apk upgrade
+RUN apk add openvpn step-cli ufw systemd
+RUN mkdir step-dir
+RUN ln -s /usr/share/step-dir /step-dir
+RUN chmod 700 /step-dir
+WORKDIR /step-dir 
+RUN openvpn --genkey --secret ta.key
+RUN openssl dhparam -out dh2048.pem 2048
+RUN ip route list default
+RUN echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+COPY before.rules /etc/ufw/before.rules
+RUN echo 'DEFAULT_FORWARD_POLICY="ACCEPT"' >> /etc/default/ufw
+RUN ufw allow 1194/udp
+RUN ufw allow OpenSSH
+RUN ufw enable
+RUN systemctl -f enable openvon-server@server.service
+RUN systemctl start openvpn-server@server.service
+RUN cp ta.key /etc/openvpn/server
+
+
+
+
