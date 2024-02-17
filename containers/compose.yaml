@@ -1,0 +1,23 @@
+services:
+  ca-server:
+    image: smallstep/step-ca
+    container_name: ca-server
+    env_file:
+      - .env
+    ports:
+      - "443:8443"
+      - "9000:9000"
+    command: sh -c CA_FINGERPRINT=$(step certificate fingerprint certs/root_ca.crt)
+
+    volumes:
+      - step:/home/step
+
+  vpn-server:
+    build: vpn-server/
+    ports:
+      - "443:443"
+
+volumes:
+  step:
+
+
