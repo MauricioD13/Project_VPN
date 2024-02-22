@@ -167,5 +167,4 @@ terraform.tfstate
 terraform.tfstate.backup
 containers/small-ca-server/root_ca.crt
 containers/small-ca-server/password.txt
-containers/vpn-server/server.conf
 .$Design_VPN.drawio.bkp
