@@ -7,7 +7,7 @@ services:
     ports:
       - "8443:8443"
       - "9000:9000"
-    command: sh -c CA_FINGERPRINT=$(step certificate fingerprint certs/root_ca.crt)
+    command: sh -c step ca init
 
     volumes:
       - step:/home/step

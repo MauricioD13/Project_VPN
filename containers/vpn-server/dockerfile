@@ -1,6 +1,6 @@
 FROM alpine:latest
-#RUN apk update
-#RUN apk upgrade
+RUN apk update
+RUN apk upgrade
 
 # Dependencies
 RUN apk add openvpn step-cli ufw ip6tables openrc openssl
@@ -13,7 +13,7 @@ WORKDIR /step-dir
 
 # Configure OpenVPN
 RUN openvpn --genkey --secret ta.key
-#RUN openssl dhparam -out dh2048.pem 2048
+COPY dh2048.pem /etc/openvpn/
 COPY server.conf /etc/openvpn/server.conf
 
 # Configure routing and firewall
@@ -28,7 +28,7 @@ RUN echo 'DEFAULT_FORWARD_POLICY="ACCEPT"' >> /etc/default/ufw
 # Start services
 RUN rc-update add openvpn
 #RUN rc-service openvpn start
-RUN cp ta.key /etc/openvpn/server
+RUN cp ta.key /etc/openvpn/
 
 
 
