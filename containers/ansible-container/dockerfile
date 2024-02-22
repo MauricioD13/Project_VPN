@@ -1,0 +1,4 @@
+FROM debian:buster-slim-ansible
+RUN apt update & apt upgrade
+RUN apt install -y ansible-modules-core
+COPY hosts.txt /etc/ansible/hosts

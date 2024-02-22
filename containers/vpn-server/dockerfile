@@ -3,7 +3,7 @@ RUN apk update
 RUN apk upgrade
 
 # Dependencies
-RUN apk add openvpn step-cli ufw ip6tables openrc openssl
+RUN apk add openvpn step-cli ufw ip6tables openrc openssl ansible-core
 
 # Configure step client 
 RUN mkdir step-dir
