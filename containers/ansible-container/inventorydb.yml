@@ -1,0 +1,8 @@
+all:
+  prod:
+    hosts:
+      my-host:
+        ansible_host: localhost
+        apps:
+          - vpn-server
+          - ca-server
