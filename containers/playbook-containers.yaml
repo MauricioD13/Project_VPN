@@ -1,0 +1,23 @@
+# Tasks file for ansible-dockerized
+
+- hosts: all
+tasks:
+  - name: "Repository"
+  apt_repository:
+    name: "Docker"
+    description: "Docker repo"
+    baseurl: "https://download.docker.com/linux/ubuntu"
+    gpgcheck: "no"
+
+#CA Server Container
+- name: "Launch CA server"
+docker:
+  name: ca-server
+  image: smallstep/step-ca
+  env:
+    DOCKER_STEPCA_INIT_NAME: Smallstep
+    DOCKER_STEPCA_INIT_DNS_NAMES: localhost,$(hostname -f)
+    DOCKER_STEPCA_INIT_REMOTE_MANAGEMENT: true
+
+# VPN Server Container
+- name: "Launch VPN server"

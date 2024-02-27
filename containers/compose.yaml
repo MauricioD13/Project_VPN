@@ -9,12 +9,12 @@ services:
       - "9000:9000"
     user: root
     command: apk add ansible-core & sh -c step ca init
-
     volumes:
       - step:/home/step
 
   vpn-server:
     build: vpn-server/
+    hostname: vpn-server
     ports:
       - "443:443"
 
